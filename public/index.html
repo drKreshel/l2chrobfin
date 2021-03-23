@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Chat app</title>
+
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div id="container">
+    <h1>
+      Chat Bot Calculator
+    </h1>
+    <div id="chatSection">
+      <div class="chat-window"></div>
+      <form class="chat-form">
+        <label for="message" class="chat-label">Enter a message:</label>
+        <input id="message" type="text" class="chat-input" />
+        <input type="submit" class="chat-submit" value="enter" />
+      </form>
+    </div>
+  </div>
+
+  <script src="socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
