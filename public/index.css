@@ -13,8 +13,9 @@
   border: solid 1px #444;
 }
 .chat-window {
+  margin: 0;
   height: 300px;
-  width: 400px;
+  overflow-y: scroll;
 }
 #chatSection {
   float: left;
