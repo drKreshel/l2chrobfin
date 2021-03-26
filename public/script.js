@@ -9,9 +9,6 @@ const renderMessage = message => {
   div.classList.add('render-message')
   div.innerText = message
   chatWindow.appendChild(div)
-
-  // chatWindow.scrollTo(0, chatWindow.scrollHeight);
-  // chatWindow.scrollTop = chatWindow.scrollHeight - chatWindow.clientHeight;
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
@@ -25,6 +22,5 @@ chat.addEventListener('submit', event => {
 socket.on('chat', message => {
   console.log('Response from server: ', message)
   renderMessage(message)
-
 })
 

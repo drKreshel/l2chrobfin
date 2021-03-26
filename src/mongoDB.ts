@@ -1,23 +1,27 @@
 import { MongoClient } from "mongodb";
 
-const client = new MongoClient(
-  "mongodb+srv://drKreshel:P4ssword@cluster0.puy8h.mongodb.net/chatbotCalculator?retryWrites=true&w=majority"
+const devClient = new MongoClient(
+  "mongodb+srv://drKreshel:P4ssword@cluster0.puy8h.mongodb.net/chatbotCalculator?retryWrites=true&w=majority",
+  { useUnifiedTopology: true }
 );
 
 export async function mongoDBClientConnection() {
-  await client.connect();
+  await devClient.connect();
 }
 
-export async function mongoInsertOne(data?: object) {
-  console.log(client)
+export async function insertOperation(data: object) {
+  _insertOperation("chatbotCalculator", devClient, data);
+}
+export async function _insertOperation(
+  db: string,
+  client: MongoClient,
+  data: object,
+) {
   if (!data) {
     throw new Error("must pass a data object");
   }
   try {
-    const result = await client
-      .db("chatbotCalculator")
-      .collection("operations")
-      .insertOne(data);
+    const result = await client.db(db).collection("operations").insertOne(data);
     console.log(
       `New operation created in db with the following id: ${result.insertedId}`
     );
@@ -27,51 +31,15 @@ export async function mongoInsertOne(data?: object) {
 }
 
 export async function findLastOperations() {
-  console.log(client)
+  return _findLastOperations("chatbotCalculator", devClient);
+}
+export async function _findLastOperations(db: string, client: MongoClient) {
   const cursor = client
-    .db("chatbotCalculator")
+    .db(db)
     .collection("operations")
     .find()
-    .sort({date:-1})
+    .sort({ _id: -1 })
     .limit(10);
-    const result = await cursor.toArray();
-    return result;
+  const result = await cursor.toArray();
+  return result;
 }
-
-
-
-/* Open connection on each db request */
-// async function mongoConnect(
-//   fn: (client: MongoClient, data?: object) => Promise<void>,
-//   data?: object
-// ) {
-
-//  try {
-//     await client.connect();
-//     await fn(client, data);
-//   } catch (e) {
-//     console.error(e);
-//   } finally {
-//     await client.close();
-//   }
-// }
-
-// async function mongoCreate(client: MongoClient, data?: object) {
-//   if (!data) {
-//     throw new Error("must pass a data object");
-//   }
-//   try {
-//     const result = await client
-//       .db("chatbotCalculator")
-//       .collection("operations")
-//       .insertOne(data);
-//     console.log( `New operation created in db with the following id: ${result.insertedId}` );
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-// mongoOperation(mongoCreate({"name":"Carlos"})).catch(console.error);
-
-// export function mongoInsertOne(data: object) {
-//   return mongoConnect(mongoCreate, data);
-// }
