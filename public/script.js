@@ -20,7 +20,6 @@ chat.addEventListener('submit', event => {
 })
 
 socket.on('chat', message => {
-  console.log('Response from server: ', message)
   renderMessage(message)
 })
 

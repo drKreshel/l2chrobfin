@@ -19,7 +19,6 @@ afterEach(async()=>{
   await testClient.db("chatbotCalculatorTesting").collection('operations').deleteMany({});
 })
 
-
 describe('insertOperation', () => {
  
   it("should insert an operation into operation's collection", async () => {

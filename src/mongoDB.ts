@@ -12,6 +12,7 @@ export async function mongoDBClientConnection() {
 export async function insertOperation(data: object) {
   _insertOperation("chatbotCalculator", devClient, data);
 }
+
 export async function _insertOperation(
   db: string,
   client: MongoClient,
@@ -21,10 +22,7 @@ export async function _insertOperation(
     throw new Error("must pass a data object");
   }
   try {
-    const result = await client.db(db).collection("operations").insertOne(data);
-    console.log(
-      `New operation created in db with the following id: ${result.insertedId}`
-    );
+    await client.db(db).collection("operations").insertOne(data);
   } catch (error) {
     console.error(error);
   }
